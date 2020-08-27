@@ -34,20 +34,23 @@ function getVolumeCredits(volumeCredits, perf, play) {
   return volumeCredits;
 }
 
-function statement (invoice, plays) {
+function generateText(invoice, plays) {
   let result = `Statement for ${invoice.customer}\n`;
-  const format = getFormat();
   let totalAmount = 0;
   let volumeCredits = 0;
   for (let perf of invoice.performances) {
     const play = plays[perf.playID];
     let thisAmount = calculateThisAmount(play, perf);
     volumeCredits = getVolumeCredits(volumeCredits, perf, play);
-    result += ` ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+    result += ` ${play.name}: ${getFormat()(thisAmount / 100)} (${perf.audience} seats)\n`;
     totalAmount += thisAmount;
   }
-  result += `Amount owed is ${format(totalAmount / 100)}\nYou earned ${volumeCredits} credits \n`;
+  result += `Amount owed is ${getFormat()(totalAmount / 100)}\nYou earned ${volumeCredits} credits \n`;
   return result;
+}
+
+function statement (invoice, plays) {
+  return generateText(invoice, plays);
 }
 
 module.exports = {
