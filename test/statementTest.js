@@ -116,4 +116,26 @@ test('comedyAudience<=20 test', t => {
         'Amount owed is $360.00\n' +
         'You earned 4 credits \n');
 });
-
+test('comedyAudience>20 test', t => {
+    //given
+    const invoice = {
+        'customer': 'BigCo',
+        'performances': [
+            {
+                'playID': 'as-like',
+                'audience': 21,
+            }
+        ],
+    };
+    const plays = {
+        'as-like': {
+            'name': 'As You Like It',
+            'type': 'comedy',
+        }
+    };
+    const result = statement(invoice, plays);
+    t.is(result, 'Statement for BigCo\n' +
+        ' As You Like It: $468.00 (21 seats)\n' +
+        'Amount owed is $468.00\n' +
+        'You earned 4 credits \n');
+});
