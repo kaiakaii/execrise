@@ -64,11 +64,33 @@ test('TragedyAudience<=30 test', t => {
       }
     };
     const result = statement(invoice, plays);
-    console.log(result);
     t.is(result, 'Statement for BigCo\n' +
         ' Hamlet: $400.00 (30 seats)\n' +
         'Amount owed is $400.00\n' +
         'You earned 0 credits \n');
   });
   
-
+  test('TragedyAudience>30 test', t => {
+    //given
+    const invoice = {
+      'customer': 'BigCo',
+      'performances': [
+        {
+          'playID': 'hamlet',
+          'audience': 31,
+        }
+      ],
+    };
+    const plays = {
+      'hamlet': {
+        'name': 'Hamlet',
+        'type': 'tragedy',
+      }
+    };
+    const result = statement(invoice, plays);
+    console.log(result);
+    t.is(result, 'Statement for BigCo\n' +
+        ' Hamlet: $410.00 (31 seats)\n' +
+        'Amount owed is $410.00\n' +
+        'You earned 1 credits \n');
+  });
